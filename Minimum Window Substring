@@ -1,0 +1,61 @@
+#include <assert.h>
+char* minWindow(char* s, char* t) {
+    int i;
+    int j;
+    int k = 0;
+    int minlen = 0x0FFFFFFF;
+    int len = 0;
+    int len2 = 0;
+    char *p;
+    char *ptr;
+    int new = 0, old = 0;
+    int start=0, end = 0, newstart = 0, newend = 0;
+
+    len2 = strlen(t);
+    
+    for(i = 0 ; i < strlen(s); i++)
+    {
+        for(j = 0 ;j< strlen(t); j++)
+        {
+            if(s[i] == t[j])
+             {
+                if(len2 == strlen(t))
+                {
+                    start = i;
+                }
+                new = s[i];
+                if(new == old)
+                {
+                    break;
+                }
+                len2--;
+                
+                if(!(len2))
+                {
+                    end = i;
+                    len2 = strlen(t);
+                    if (minlen > len)
+                    {
+                        minlen = len;
+                        newstart = start;
+                        newend = i;
+                        assert(1);
+                    }
+                    len = 0;
+                }
+                old = s[i];
+                break;
+            }
+        }
+        
+        if((len2 < strlen(t)) &&  (len2 != 0))
+        {
+            len++;
+        }
+
+    }
+    p = (char *)malloc(newend - newstart+1);
+    memcpy(p,&s[newstart],newend - newstart+1);
+    //p = &s[newstart];
+    return p;
+}
